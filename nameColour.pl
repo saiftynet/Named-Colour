@@ -7,13 +7,15 @@ while (<DATA>){
 }
 
 while (1){
-	print "Enter Hex Colour in form '#xxxxxx' or 'q' to quit :  ";
+	print "Enter Hex Colour in form '#xxxxxx' or 'q' to quit \nInput :  ";
 	my $hex=<STDIN>;
 	chomp $hex;
 	last if $hex=~/q/i;
 	if ($hex=~/^#?[0-9a-f]{6}$/){
-		print "$hex is ", join("--",@{extractRGB($hex)}),"\n";
-		print "The narest named colour is ", nearest(extractRGB($hex)),"\n\n";
+		my $rgb=extractRGB($hex);
+		print "\n$hex is ", join("--",@$rgb),"\n";
+		my $nearest=nearest(extractRGB($hex));
+		print "The nearest named colour is $nearest which is ", join("--",@{$colournames->{$nearest}}),"\n\n";
 	}
 	else{
 		print "Not the format expected, try again or quit?\n\n"
@@ -21,7 +23,7 @@ while (1){
 }
 
 sub extractRGB{ #extract RGB decimal values
-	return [map {hex($_)} $_[0]=~/[0-9a-e]{2}/ig];
+	return [map {hex($_)} $_[0]=~/[0-9a-f]{2}/ig];
 }
 
 sub colourDistance{
@@ -47,6 +49,7 @@ exit 0;
 __DATA__
 Derived from https://people.csail.mit.edu/jaffer/Color/resenecolours.txt
 http://people.csail.mit.edu/jaffer/Color/Dictionaries
+
 inspired by https://chir.ag/projects/name-that-color/#6195ED
 "Resene RGB Values List"
 "For further information refer to http://www.resene.co.nz"
