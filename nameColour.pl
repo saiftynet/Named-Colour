@@ -12,18 +12,14 @@ while (1){
 	chomp $hex;
 	last if $hex=~/q/i;
 	if ($hex=~/^#?[0-9a-f]{6}$/){
-		my $rgb=extractRGB($hex);
+		my $rgb= [map {hex($_)} $hex=~/[0-9a-f]{2}/ig];;
 		print "\n$hex is ", join("--",@$rgb),"\n";
-		my $nearest=nearest(extractRGB($hex));
+		my $nearest=nearest($rgb);
 		print "The nearest named colour is $nearest which is ", join("--",@{$colournames->{$nearest}}),"\n\n";
 	}
 	else{
 		print "Not the format expected, try again or quit?\n\n"
 	}
-}
-
-sub extractRGB{ #extract RGB decimal values
-	return [map {hex($_)} $_[0]=~/[0-9a-f]{2}/ig];
 }
 
 sub colourDistance{
