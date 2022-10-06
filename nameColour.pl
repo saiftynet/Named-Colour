@@ -30,6 +30,18 @@ sub colourDistance{
 	return int (10*sqrt (  (512+$rMean)*$rDif*$rDif/256 + 4*$gDif*$gDif + (767-$rMean)*$bDif*$bDif/256 ) );
 }
 
+
+sub RGB2HSL{ # in progress
+        # from https://www.had2know.org/technology/hsl-rgb-color-converter.html
+	my ($rgb)=@_;
+	my @temp=sort(@$rgb)
+	my ($M,$m)=($temp[2],$tem[0]);
+	my $d = ($M - $m)/255;
+	my $L = [($M + $m)]/512;
+	my $S = $L>0? $d/(1 - abs(2*$L-1)): 0;
+
+}
+
 sub nearest{
 	my $in=shift;
 	my $colourFound="Abbey";
